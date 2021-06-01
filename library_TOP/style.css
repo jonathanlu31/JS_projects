@@ -1,0 +1,21 @@
+header {
+    display: flex;
+    padding: 20px 30px;
+    align-items: center;
+}
+
+#add-btn {
+    height: 2.5rem;
+    margin-left: 1.5rem;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 370px;
+    margin: 10px;
+}
