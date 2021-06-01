@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.ham-menu {
+    padding: .4rem .8rem;
+    background-color: rebeccapurple;
+    border-radius: 5px;
+    color: white;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transition: 300ms transform;
+    cursor: pointer;
+}
+
+.ham-menu.active {
+    transform: translateX(-175px);
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rebeccapurple;
+    color: white;
+    height: 100vh;
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    transform: translateX(400px);
+    transition: 300ms transform;
+}
+
+ul.active {
+    transform: translateX(0);
+}
+
+li {
+    padding: 2rem 0;
+}
+
+#toasts {
+    margin: auto;
+}
