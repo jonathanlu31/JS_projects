@@ -89,6 +89,8 @@ function initialLibrary() {
 }
 /*
 Extra functionality:
-Let user move book cards around
+Let user move book cards around (drag card like hearthstone)
 fetch the description from the internet
+let user flip card over
+storage (local or cloud)
 */
