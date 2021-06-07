@@ -1,6 +1,6 @@
 header {
     display: flex;
-    padding: 20px 30px;
+    padding: 20px 30px 10px;
     align-items: center;
 }
 
@@ -20,7 +20,6 @@ header {
     margin: 10px;
 }
 
-/* .card-footer {
-    display: flex;
-    justify-content: space-around;
-} */
+hr {
+    margin: 0 0 1.5rem 0;
+}

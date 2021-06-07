@@ -6,9 +6,12 @@ const cardTemplate = `
         <p class='card-text'></p>
         <p class='card-text'></p>
         <p class='card-text'></p> <!-- overflow for description -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="markRead">
+            <label class="form-check-label" for="markRead">Mark as Read</label>
+        </div>
     </div>
     <div class="card-footer">
-        <button class="btn btn-outline-success">Mark as Read</button>
         <button class="btn btn-outline-danger" id='remove-button'>Remove from library</button>
     </div>
 </div>`
@@ -16,6 +19,7 @@ const cardTemplate = `
 const bookForm = document.forms[0];
 const submitButton = document.querySelector('#modal-submit');
 submitButton.addEventListener('click', bookInput);
+initialLibrary();
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -58,6 +62,7 @@ function createBookCard(book) {
     textItems[1].textContent = `Number of pages: ${book.pages}`;
     textItems[2].textContent = `Description: ${book.description}`;
 
+    initializeReadToggle(card, book);
     card.querySelector('#remove-button').addEventListener('click', removeBook);
 }
 
@@ -65,6 +70,22 @@ function removeBook(event) {
     let closeCard = event.target.closest('.card');
     myLibrary.splice(+closeCard.dataset.bookNum, 1);
     closeCard.remove();
+}
+
+function initializeReadToggle(bookCard, book) {
+    let toggle = bookCard.querySelector('#markRead');
+    if (book.read) {
+        toggle.checked = true;
+    }
+    toggle.addEventListener('click', () => {
+        book.read = !book.read;
+    })
+}
+
+function initialLibrary() {
+    let firstBook = new Book('The Hobbit', 'J.R.R. Tolkien', 310, true);
+    addBookToLibrary(firstBook);
+    createBookCard(firstBook);
 }
 /*
 Extra functionality:
