@@ -1,0 +1,17 @@
+.fa-heart {
+    position: fixed;
+    top: -40px;
+    animation-name: rain;
+    animation-timing-function: linear;
+    font-size: 1.7rem;
+    color: rebeccapurple
+}
+
+@keyframes rain {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(105vh);
+    }
+}
