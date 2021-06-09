@@ -1,0 +1,38 @@
+.carousel-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  width: 700px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.img-container {
+  display: flex;
+  transition: transform 400ms;
+  transform: translateX(-700px);
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 2rem;
+  z-index: 1;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.carousel-button:hover {
+  opacity: 1;
+}
+
+#left-btn {
+  left: 10%;
+}
+
+#right-btn {
+  right: 10%;
+}
