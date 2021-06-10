@@ -1,0 +1,30 @@
+body {
+  padding: 4rem;
+}
+
+#type-box {
+  position: relative;
+}
+
+#type-box::after {
+  content: '';
+  height: 2.5rem;
+  width: 0.15rem;
+  position: absolute;
+  right: -0.4rem;
+  top: 0.2rem;
+  border: 2px solid black;
+  animation-name: blink;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
