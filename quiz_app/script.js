@@ -27,7 +27,7 @@ const quizData = [
             2: 'Google Chrome',
             3: 'Mosaic'
         },
-        correct: 2
+        correct: 3
     },
     {
         question: 'What year was UC Berkeley founded?',
@@ -52,28 +52,32 @@ const quizData = [
 ]
 let questionIndex = 0;
 let answersCorrect = 0;
-
+const answerChoices = document.querySelectorAll('input[name="quiz-answer"]');
+const title = document.querySelector('.card-title');
+const quizCard = document.getElementById(('quiz-card'));
 const quiz = document.forms[0];
+
 quiz.addEventListener('submit', processSubmission);
-displayNextQuestion();
+displayQuestion();
 
 function processSubmission(e) {
     e.preventDefault();
     const userAnswer = +collectAnswer();
     const correctAnswer = quizData[questionIndex].correct;
-    console.log(userAnswer);
-    console.log(quizData[questionIndex].correct)
     if (userAnswer === correctAnswer) {
         countAnswer(true);
     } else {
         countAnswer(false);
     }
     questionIndex++;
-    displayNextQuestion();
+    if (questionIndex >= quizData.length) {
+        showResults();
+    } else {
+        displayQuestion();
+    }
 }
 
 function collectAnswer() {
-    let answerChoices = document.querySelectorAll('input[name="quiz-answer"]');
     for (let choice of answerChoices) {
         if (choice.checked) {
             return choice.dataset.answer;
@@ -98,10 +102,28 @@ function countAnswer(correct) {
     setTimeout(() => alert.remove(), 1500);
 }
 
-function displayNextQuestion() {
-    document.querySelector('.card-title').textContent = quizData[questionIndex].question;
+function displayQuestion() {
+    title.textContent = quizData[questionIndex].question;
     let answers = document.querySelectorAll('.quiz-answer-container label');
     for (let i = 0; i < answers.length; i++) {
         answers[i].textContent = quizData[questionIndex].answers[i];
     }
+    for (let answer of answerChoices) {
+        answer.checked = false;
+    }
+}
+
+function showResults() {
+    quizCard.style.display = 'none';
+    let resultsPage = document.querySelector('#scorecard').content.cloneNode(true);
+    let card = resultsPage.firstElementChild;
+    resultsPage.querySelector('p').textContent = `You got ${answersCorrect}/${quizData.length} correct!`;
+    resultsPage.querySelector('button').addEventListener('click', () => {
+        questionIndex = 0;
+        answersCorrect = 0;
+        card.remove();
+        quizCard.style.display = 'block';
+        displayQuestion();
+    })
+    document.body.append(resultsPage);
 }

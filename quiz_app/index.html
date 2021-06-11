@@ -12,29 +12,38 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <div class="card">
+    <div class="card" id="quiz-card">
       <form action="">
         <div class="card-body">
           <h5 class="card-title"></h5>
           <div class="form-check quiz-answer-container">
-            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz1" data-answer="0" />
+            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz1" data-answer="0" required />
             <label class="form-check-label" for="quiz1"></label>
           </div>
           <div class="form-check quiz-answer-container">
-            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz2" data-answer="1" />
+            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz2" data-answer="1" required />
             <label class="form-check-label" for="quiz2"></label>
           </div>
           <div class="form-check quiz-answer-container">
-            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz3" data-answer="2" />
+            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz3" data-answer="2" required />
             <label class="form-check-label" for="quiz3"></label>
           </div>
           <div class="form-check quiz-answer-container">
-            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz4" data-answer="3" />
+            <input class="form-check-input" type="radio" name="quiz-answer" id="quiz4" data-answer="3" required />
             <label class="form-check-label" for="quiz4"></label>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary submit">Submit</button>
+        <button type="submit" class="btn btn-primary block">Submit</button>
       </form>
     </div>
+    <template id="scorecard">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Final Results</h5>
+          <p class="card-text"></p>
+        </div>
+        <button class="btn btn-primary block">Try again?</button>
+      </div>
+    </template>
   </body>
 </html>
