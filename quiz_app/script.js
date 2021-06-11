@@ -108,22 +108,18 @@ function displayQuestion() {
     for (let i = 0; i < answers.length; i++) {
         answers[i].textContent = quizData[questionIndex].answers[i];
     }
+    // Deselect all answers
     for (let answer of answerChoices) {
         answer.checked = false;
     }
 }
 
 function showResults() {
-    quizCard.style.display = 'none';
+    quizCard.remove();
     let resultsPage = document.querySelector('#scorecard').content.cloneNode(true);
-    let card = resultsPage.firstElementChild;
     resultsPage.querySelector('p').textContent = `You got ${answersCorrect}/${quizData.length} correct!`;
     resultsPage.querySelector('button').addEventListener('click', () => {
-        questionIndex = 0;
-        answersCorrect = 0;
-        card.remove();
-        quizCard.style.display = 'block';
-        displayQuestion();
+        location.reload();
     })
     document.body.append(resultsPage);
 }
