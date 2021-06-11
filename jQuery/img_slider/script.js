@@ -1,11 +1,24 @@
 const slider = $('.img-container')
+let interval;
+
 function moveSlider() {
-    if (Math.abs(+slider.css('left').slice(0, -2)) > 700 * 4) {
-        slider.css('left', 0);
-    }
     slider.animate({
         left: '-=700px'
-    }, 2000, moveSlider);
+    }, 1000, () => {
+        if (Math.abs(+slider.css('left').slice(0, -2)) > 700 * 4) {
+            slider.css('left', 0);
+        }
+    });
 }
 
-$(window).on('load', () => moveSlider());
+function startSlider() {
+    interval = setInterval(moveSlider, 2000)
+}
+
+function stopSlider() {
+    clearInterval(interval);
+}
+
+slider.on('mouseenter', stopSlider).on('mouseleave', startSlider);
+
+$(window).on('load', startSlider);
