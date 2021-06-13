@@ -52,17 +52,14 @@ const quizData = [
 ]
 let questionIndex = 0;
 let answersCorrect = 0;
-const answerChoices = document.querySelectorAll('input[name="quiz-answer"]');
-const title = document.querySelector('.card-title');
-const quizCard = document.getElementById(('quiz-card'));
-const quiz = document.forms[0];
+const answerRadios = $('input[name="quiz-answer"]');
 
-quiz.addEventListener('submit', processSubmission);
 displayQuestion();
+$(document.forms[0]).on('submit', processSubmission);
 
 function processSubmission(e) {
     e.preventDefault();
-    const userAnswer = +collectAnswer();
+    const userAnswer = +getAnswerAndDeselect();
     const correctAnswer = quizData[questionIndex].correct;
     if (userAnswer === correctAnswer) {
         countAnswer(true);
@@ -77,49 +74,116 @@ function processSubmission(e) {
     }
 }
 
-function collectAnswer() {
-    for (let choice of answerChoices) {
-        if (choice.checked) {
-            return choice.dataset.answer;
+function getAnswerAndDeselect() {
+    let userAnswer;
+    for (let i = 0; i < answerRadios.length; i++) {
+        if (answerRadios.eq(i).prop('checked')) {
+            userAnswer = answerRadios.eq(i).data('answer');
         }
+        answerRadios.eq(i).prop('checked', false);
+    }
+    return userAnswer;
+}
+
+function displayQuestion() {
+    const currQues = quizData[questionIndex];
+    const title = $('.card-title');
+    title.text(currQues.question);
+    for (let i = 0; i < answerRadios.length; i++) {
+        answerRadios.eq(i).next().text(currQues.answers[i]);
     }
 }
 
 function countAnswer(correct) {
-    const alert = document.createElement('div');
-    alert.className = 'alert';
-    alert.role = 'alert';
+    const alert = $('<div class="alert"></div>');
     if (correct) {
-        alert.textContent = 'Correct!';
-        alert.classList.add('alert-success');
+        alert.addClass('alert-success');
+        alert.text('Correct!');
         answersCorrect++;
     } else {
-        alert.textContent = 'Incorrect.';
-        alert.classList.add('alert-danger');
+        alert.addClass('alert-danger');
+        alert.text('Incorrect.');
     }
-
-    document.body.append(alert);
+    $('body').append(alert);
     setTimeout(() => alert.remove(), 1500);
 }
 
-function displayQuestion() {
-    title.textContent = quizData[questionIndex].question;
-    let answers = document.querySelectorAll('.quiz-answer-container label');
-    for (let i = 0; i < answers.length; i++) {
-        answers[i].textContent = quizData[questionIndex].answers[i];
-    }
-    // Deselect all answers
-    for (let answer of answerChoices) {
-        answer.checked = false;
-    }
+function showResults() {
+    $('#quiz-card').remove();
+    const scoreCard = $('#scorecard').get(0).content.cloneNode(true);
+    $(scoreCard.querySelector('.card-text')).text(`You got ${answersCorrect}/${quizData.length} questions correct!`);
+    $(scoreCard.querySelector('button')).click(() => location.reload());
+    $('body').append(scoreCard);
 }
 
-function showResults() {
-    quizCard.remove();
-    let resultsPage = document.querySelector('#scorecard').content.cloneNode(true);
-    resultsPage.querySelector('p').textContent = `You got ${answersCorrect}/${quizData.length} correct!`;
-    resultsPage.querySelector('button').addEventListener('click', () => {
-        location.reload();
-    })
-    document.body.append(resultsPage);
-}
+// const answerChoices = document.querySelectorAll('input[name="quiz-answer"]');
+// const title = document.querySelector('.card-title');
+// const quizCard = document.getElementById(('quiz-card'));
+// const quiz = document.forms[0];
+
+// quiz.addEventListener('submit', processSubmission);
+// displayQuestion();
+
+// function processSubmission(e) {
+//     e.preventDefault();
+//     const userAnswer = +collectAnswer();
+//     const correctAnswer = quizData[questionIndex].correct;
+//     if (userAnswer === correctAnswer) {
+//         countAnswer(true);
+//     } else {
+//         countAnswer(false);
+//     }
+//     questionIndex++;
+//     if (questionIndex >= quizData.length) {
+//         showResults();
+//     } else {
+//         displayQuestion();
+//     }
+// }
+
+// function collectAnswer() {
+//     for (let choice of answerChoices) {
+//         if (choice.checked) {
+//             return choice.dataset.answer;
+//         }
+//     }
+// }
+
+// function countAnswer(correct) {
+//     const alert = document.createElement('div');
+//     alert.className = 'alert';
+//     alert.role = 'alert';
+//     if (correct) {
+//         alert.textContent = 'Correct!';
+//         alert.classList.add('alert-success');
+//         answersCorrect++;
+//     } else {
+//         alert.textContent = 'Incorrect.';
+//         alert.classList.add('alert-danger');
+//     }
+
+//     document.body.append(alert);
+//     setTimeout(() => alert.remove(), 1500);
+// }
+
+// function displayQuestion() {
+//     title.textContent = quizData[questionIndex].question;
+//     let answers = document.querySelectorAll('.quiz-answer-container label');
+//     for (let i = 0; i < answers.length; i++) {
+//         answers[i].textContent = quizData[questionIndex].answers[i];
+//     }
+//     // Deselect all answers
+//     for (let answer of answerChoices) {
+//         answer.checked = false;
+//     }
+// }
+
+// function showResults() {
+//     quizCard.remove();
+//     let resultsPage = document.querySelector('#scorecard').content.cloneNode(true);
+//     resultsPage.querySelector('p').textContent = `You got ${answersCorrect}/${quizData.length} correct!`;
+//     resultsPage.querySelector('button').addEventListener('click', () => {
+//         location.reload();
+//     })
+//     document.body.append(resultsPage);
+// }
