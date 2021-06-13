@@ -8,11 +8,11 @@ body {
 
 #type-box::after {
   content: '';
-  height: 2.5rem;
+  height: 100%;
   width: 0.15rem;
   position: absolute;
   right: -0.4rem;
-  top: 0.2rem;
+  top: 0.1rem;
   border: 2px solid black;
   animation-name: blink;
   animation-duration: 500ms;
