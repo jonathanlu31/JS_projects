@@ -1,0 +1,15 @@
+.weather-data {
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.search-bar {
+  float: right;
+  margin: 2rem;
+}
+
+#temperature {
+  font-size: 6rem;
+}
