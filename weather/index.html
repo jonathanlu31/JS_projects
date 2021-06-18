@@ -8,22 +8,23 @@
     <script src="https://kit.fontawesome.com/be956ea42b.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
-    <script src="script.js" defer></script>
+    <script type="module" src="script.js" defer></script>
   </head>
   <body>
     <form action="get" class="search-bar">
-      <input type="text" name="location-search" id="location-search" class="form-control" placeholder="Search city" />
+      <input type="checkbox" class="btn-check" id="units-toggle" autocomplete="off" />
+      <label class="btn btn-outline-dark toggle" for="units-toggle">Change to Celsius</label><br />
+      <input type="search" name="location-search" id="location-search" class="form-control" placeholder="Search city" />
     </form>
     <div class="container weather-data">
-      <h2 class="display-6 mb-0" id="weather-description">Mostly Sunny</h2>
-      <h1 class="display-1" id="location">San Diego, California</h1>
-      <div class="container-fluid d-flex">
-        <p id="temperature" class="me-5">69<sup>F</sup></p>
+      <h2 class="display-6 mb-0" id="weather-description"></h2>
+      <h1 class="display-1" id="location"></h1>
+      <div class="container-fluid d-flex align-items-center">
+        <p id="temperature" class="me-5"><sup></sup></p>
         <div class="d-flex flex-column">
-          <p id="feels-like">Feels like: 24</p>
-          <p id="humidity">Humidity: 24%</p>
-          <p id="wind">Wind:</p>
+          <p id="feels-like"></p>
+          <p id="humidity"></p>
+          <p id="wind"></p>
         </div>
       </div>
     </div>

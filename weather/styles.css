@@ -8,8 +8,27 @@
 .search-bar {
   float: right;
   margin: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.toggle {
+  width: 20rem;
+  margin-right: 1rem;
 }
 
 #temperature {
   font-size: 6rem;
+  position: relative;
+}
+
+#temperature > sup {
+  font-size: 2rem;
+  position: absolute;
+  top: 2rem;
+}
+
+#weather-description {
+  color: #4e4e4e;
+  font-size: 1.5rem;
 }
