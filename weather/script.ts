@@ -63,6 +63,13 @@ function displayData() {
     const humid = document.getElementById('humidity')!;
     const wind = humid.nextElementSibling!;
 
+    if (data.temp < 60) {
+        console.log(data.temp);
+        document.body.classList.add('cold');
+    } else {
+        document.body.className = '';
+    }
+
     location.textContent = `${data.name}, ${data.country}`;
     description.textContent = toTitleCase(data.weatherDescrip);
     temp.innerHTML = `${convertTemp(data.temp, units)}<sup>&deg;${units}</sup>`;

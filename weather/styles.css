@@ -1,3 +1,18 @@
+body {
+  background-color: #fc9842;
+  background-image: linear-gradient(315deg, #fc9842 0%, #fe5f75 74%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: white;
+}
+
+body.cold {
+  background-color: #2a2a72;
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+}
+
 .weather-data {
   position: absolute;
   left: 10%;
@@ -29,6 +44,6 @@
 }
 
 #weather-description {
-  color: #4e4e4e;
+  color: white;
   font-size: 1.5rem;
 }
