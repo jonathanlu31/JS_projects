@@ -19,16 +19,12 @@
       const search = document.querySelector('input');
       const form = document.forms[0];
       form.addEventListener('submit', getRandomGif);
-      function getRandomGif(e) {
+      async function getRandomGif(e) {
         e.preventDefault();
         let userInput = search.value;
-        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=JF4FGMsfSpjcUyZTNvvhwfIKsA9L0FOd&s=${userInput}`, { mode: 'cors' })
-          .then(function (res) {
-            return res.json();
-          })
-          .then(function (res) {
-            img.src = res.data.images.original.url;
-          });
+        let res = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=JF4FGMsfSpjcUyZTNvvhwfIKsA9L0FOd&s=${userInput}`, { mode: 'cors' })
+        let jsonRes = await res.json();
+        img.src = jsonRes.data.images.original.url;
         search.value = '';
       }
     </script>
