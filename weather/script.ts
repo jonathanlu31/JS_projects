@@ -38,10 +38,10 @@ function getUserInput() {
     return input;
 }
 
-function getWeatherData(location: string) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}&units=imperial`)
-    .then(res => res.json())
-    .then(res => {
+async function getWeatherData(location: string) {
+    try {
+        let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}&units=imperial`)
+        res = await res.json();
         data = new WeatherData(
             res.name,
             res.sys.country,
@@ -53,8 +53,9 @@ function getWeatherData(location: string) {
         )
 
         displayData();
-    })
-    .catch(alert);
+    } catch (err) {
+        alert(err);
+    }
 }
 
 function displayData() {

@@ -35,14 +35,16 @@ function getUserInput() {
     searchBar.value = '';
     return input;
 }
-function getWeatherData(location) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}&units=imperial`)
-        .then(res => res.json())
-        .then(res => {
+async function getWeatherData(location) {
+    try {
+        let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}&units=imperial`);
+        res = await res.json();
         data = new WeatherData(res.name, res.sys.country, res.weather[0].description, res.main.temp, res.main.feels_like, res.main.humidity, res.wind.speed);
         displayData();
-    })
-        .catch(alert);
+    }
+    catch (err) {
+        alert(err);
+    }
 }
 function displayData() {
     const location = document.getElementById('location');
@@ -74,3 +76,4 @@ function toggleUnits() {
     }
     displayData();
 }
+// TODO: use async/await
