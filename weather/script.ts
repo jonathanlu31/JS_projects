@@ -18,6 +18,7 @@ const searchBar = document.querySelector('#location-search') as HTMLInputElement
 const unitToggle = document.getElementById('units-toggle')! as HTMLInputElement;
 const temp = document.getElementById('temperature')!;
 const feels = document.getElementById('feels-like')!;
+const currentLocation = document.getElementById('current-loc')!;
 let units: 'F' | 'C' = 'F';
 let data: WeatherData;
 
@@ -28,20 +29,46 @@ searchBar.form!.addEventListener('submit', (e: Event) => {
     getWeatherData(getUserInput());
 })
 unitToggle.addEventListener('click', toggleUnits);
+currentLocation.addEventListener('click', getTempHere);
 
 
+function getTempHere() {
+    let lat: number;
+    let long: number;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            lat = pos.coords.latitude;
+            long = pos.coords.longitude;
 
+            getWeatherData(lat, long);
+        })
+    }
+}
 
 function getUserInput() {
-    const input = searchBar.value.replace(/\s/g, '+');
+    const input = searchBar.value;
     searchBar.value = '';
     return input;
 }
 
-async function getWeatherData(location: string) {
+function getWeatherData(lat: number, long: number): void;
+function getWeatherData(location: string): void;
+async function getWeatherData(latOrLoc: string | number, long?: number) {
+    let searchURL = new URL(`https://api.openweathermap.org/data/2.5/weather`);
+    if (typeof latOrLoc === 'string') {
+        searchURL.searchParams.append('q', latOrLoc);
+    } else {
+        searchURL.searchParams.append('lat', latOrLoc.toString());
+        searchURL.searchParams.append('lon', long!.toString());
+    }
+    searchURL.searchParams.append('appid', APIKey);
+    searchURL.searchParams.append('units', 'imperial');
+    
+    console.log(searchURL.toString());
     try {
-        let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}&units=imperial`)
+        let res = await fetch(searchURL.toString());
         res = await res.json();
+        console.log(res);
         data = new WeatherData(
             res.name,
             res.sys.country,
