@@ -62,11 +62,15 @@ const GameBoard = (() => {
         }
         return true;
     }
+    function resetTurns() {
+        turns = 0;
+    }
     return {
         getCurrentPlayer,
         switchPlayer,
         checkWin,
-        checkTie
+        checkTie,
+        resetTurns
     };
 })();
 const displayController = (function () {
@@ -99,6 +103,10 @@ const displayController = (function () {
         turnHeader.textContent = "Player X's turn";
         table.removeEventListener('click', displayController.markTile);
         table.addEventListener('click', displayController.markTile);
+        if (GameBoard.getCurrentPlayer().symbol === 'O') {
+            GameBoard.switchPlayer();
+        }
+        GameBoard.resetTurns();
     }
     function endGame(win) {
         if (win) {
