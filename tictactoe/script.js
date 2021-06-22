@@ -96,6 +96,9 @@ const displayController = (function () {
                 cell.textContent = '';
             }
         }
+        turnHeader.textContent = "Player X's turn";
+        table.removeEventListener('click', displayController.markTile);
+        table.addEventListener('click', displayController.markTile);
     }
     function endGame(win) {
         if (win) {
@@ -104,6 +107,7 @@ const displayController = (function () {
         else {
             turnHeader.textContent = "It's a tie!";
         }
+        table.removeEventListener('click', displayController.markTile);
     }
     return {
         markTile,
