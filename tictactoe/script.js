@@ -1,7 +1,20 @@
 "use strict";
+class Player {
+    symbol;
+    constructor(symbol) {
+        this.symbol = symbol;
+    }
+    mark(tile) {
+        if (tile.textContent) {
+            return false;
+        }
+        tile.textContent = this.symbol;
+        return true;
+    }
+}
 const GameBoard = (() => {
     let currentPlayer = 0;
-    const players = [getPlayer('X'), getPlayer('O')];
+    const players = [new Player('X'), new Player('O')];
     let turns = 0;
     function getCurrentPlayer() {
         return players[currentPlayer];
@@ -120,19 +133,6 @@ const displayController = (function () {
         endGame
     };
 })();
-function getPlayer(symbol) {
-    const mark = function (tile) {
-        if (tile.textContent) {
-            return false;
-        }
-        tile.textContent = this.symbol;
-        return true;
-    };
-    return {
-        symbol,
-        mark
-    };
-}
 const table = document.querySelector('table');
 const resetButton = document.getElementById('reset');
 const rows = table.rows;

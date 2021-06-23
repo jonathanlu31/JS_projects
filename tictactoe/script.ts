@@ -1,6 +1,18 @@
+class Player {
+    constructor(public symbol: string) {}
+
+    mark(this: Player, tile: HTMLTableCellElement) {
+        if (tile.textContent) {
+            return false;
+        }
+        tile.textContent = this.symbol;
+        return true;
+    }
+}
+
 const GameBoard = (() => {
     let currentPlayer: 0 | 1 = 0;
-    const players: Player[] = [getPlayer('X'), getPlayer('O')];
+    const players: Player[] = [new Player('X'), new Player('O')];
     let turns = 0;
 
 
@@ -134,26 +146,6 @@ const displayController = (function () {
         endGame
     }
 })()
-
-interface Player {
-    symbol: string;
-    mark: (t: HTMLTableCellElement) => boolean
-}
-
-function getPlayer(symbol: string) {
-    const mark = function(this: Player, tile: HTMLTableCellElement) {
-        if (tile.textContent) {
-            return false;
-        }
-        tile.textContent = this.symbol;
-        return true;
-    }
-
-    return {
-        symbol,
-        mark
-    }
-}
 
 const table = document.querySelector('table')!;
 const resetButton = document.getElementById('reset')! as HTMLButtonElement;
