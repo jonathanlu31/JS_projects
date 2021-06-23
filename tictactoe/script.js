@@ -1,7 +1,4 @@
 "use strict";
-/* gameboard: current player, board of tiles
-players: score, mark()
-*/
 const GameBoard = (() => {
     let currentPlayer = 0;
     // TODO: fix the type

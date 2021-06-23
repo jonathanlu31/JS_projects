@@ -1,10 +1,7 @@
-/* gameboard: current player, board of tiles
-players: score, mark()
-*/
 const GameBoard = (() => {
     let currentPlayer: 0 | 1 = 0;
     // TODO: fix the type
-    const players: typeof Player[] = [new Player('X'), new Player('O')];
+    const players: Player[] = [new Player('X'), new Player('O')];
     let turns = 0;
 
 
@@ -65,7 +62,7 @@ const GameBoard = (() => {
             if (i === 0) {
                 firstSymbol = symbol;
             }
-            if (!symbol || symbol !== firstSymbol) {
+            if (!symbol || symbol !== firstSymbol!) {
                 return false;
             }
         }
@@ -86,7 +83,7 @@ const GameBoard = (() => {
 })();
 
 const displayController = (function () {
-    function markTile(e: Event) {
+    function markTile(e: MouseEvent) {
         if (e!.target!.tagName !== 'TD') {
             return;
         }
@@ -102,7 +99,7 @@ const displayController = (function () {
         }
     }
 
-    function changeTurn(currPlayer: typeof Player) {
+    function changeTurn(currPlayer: Player) {
         turnHeader.textContent = `Player ${currPlayer.symbol}'s turn`;
     }
 
@@ -139,7 +136,12 @@ const displayController = (function () {
     }
 })()
 
-function Player(symbol: string) {
+interface Player {
+    symbol: string;
+    mark: (t: HTMLTableCellElement) => boolean
+}
+
+function Player(this: Player, symbol: string) {
     this.symbol = symbol;
     this.mark = (tile: HTMLTableCellElement) => {
         if (tile.textContent) {
