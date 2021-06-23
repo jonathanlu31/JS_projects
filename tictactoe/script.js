@@ -1,8 +1,7 @@
 "use strict";
 const GameBoard = (() => {
     let currentPlayer = 0;
-    // TODO: fix the type
-    const players = [new Player('X'), new Player('O')];
+    const players = [getPlayer('X'), getPlayer('O')];
     let turns = 0;
     function getCurrentPlayer() {
         return players[currentPlayer];
@@ -121,14 +120,17 @@ const displayController = (function () {
         endGame
     };
 })();
-function Player(symbol) {
-    this.symbol = symbol;
-    this.mark = (tile) => {
+function getPlayer(symbol) {
+    const mark = function (tile) {
         if (tile.textContent) {
             return false;
         }
         tile.textContent = this.symbol;
         return true;
+    };
+    return {
+        symbol,
+        mark
     };
 }
 const table = document.querySelector('table');

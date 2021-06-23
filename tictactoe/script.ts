@@ -1,7 +1,6 @@
 const GameBoard = (() => {
     let currentPlayer: 0 | 1 = 0;
-    // TODO: fix the type
-    const players: Player[] = [new Player('X'), new Player('O')];
+    const players: Player[] = [getPlayer('X'), getPlayer('O')];
     let turns = 0;
 
 
@@ -141,14 +140,18 @@ interface Player {
     mark: (t: HTMLTableCellElement) => boolean
 }
 
-function Player(this: Player, symbol: string) {
-    this.symbol = symbol;
-    this.mark = (tile: HTMLTableCellElement) => {
+function getPlayer(symbol: string) {
+    const mark = function(this: Player, tile: HTMLTableCellElement) {
         if (tile.textContent) {
             return false;
         }
         tile.textContent = this.symbol;
         return true;
+    }
+
+    return {
+        symbol,
+        mark
     }
 }
 
