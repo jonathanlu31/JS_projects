@@ -147,6 +147,7 @@ const displayController = (function () {
     }
 })()
 
+
 const table = document.querySelector('table')!;
 const resetButton = document.getElementById('reset')! as HTMLButtonElement;
 const rows = table.rows;
