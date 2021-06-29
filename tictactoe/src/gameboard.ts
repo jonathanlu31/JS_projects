@@ -66,17 +66,10 @@ export class GameBoard {
     }
 
     checkThreeTiles(threeTiles: HTMLTableCellElement[]) {
-        let firstSymbol: string | null;
-        for (let i = 0; i < threeTiles.length; i++) {
-            let symbol = threeTiles[i].textContent;
-            if (i === 0) {
-                firstSymbol = symbol;
-            }
-            if (!symbol || symbol !== firstSymbol!) {
-                return false;
-            }
-        }
-        return true;
+        const threeTilesContent = threeTiles.map(tile => tile.textContent);
+        const emptyCheck = !!threeTilesContent[0];
+        const sameCheck = threeTilesContent[0] === threeTilesContent[1] && threeTilesContent[1] === threeTilesContent[2];
+        return emptyCheck && sameCheck;
     }
 
     clearBoard() {
