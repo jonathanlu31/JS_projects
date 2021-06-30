@@ -5,47 +5,72 @@ const table = document.querySelector('table')!;
 const rows = table.rows;
 
 export class GameBoard {
-    private currentPlayer: number;
+    currentPlayer: number;
     private players: Player[];
-    private turns;
+    private mode: string | undefined;
+    public display: DisplayController | undefined;
+    private snapshot: string[][] = [
+        ['', '', ''], ['', '', ''], ['', '', '']
+    ];
 
     constructor() {
         this.currentPlayer = 0;
         this.players = [new Player('X'), new Player('O')];
-        this.turns = 0;
+    }
+
+    setMode(mode: string) {
+        this.mode = mode;
+        if (mode === 'single') {
+            this.currentPlayer++;
+        }
+    }
+
+    getMode() {
+        return this.mode;
     }
 
     getCurrentPlayer(): Player {
         return this.players[this.currentPlayer];
     }
 
-    switchPlayer() {
+    nextTurn() {
+        if (this.mode === 'single') {
+            this.playBest();
+            this.display!.checkGameover();
+            return;
+        }
         this.currentPlayer = ((this.currentPlayer + 1) % 2);
         DisplayController.changeTurn(this.getCurrentPlayer());
     }
 
     checkTie() {
-        return this.turns === 9;
+        for (let row of rows) {
+            for (let cell of row.cells) {
+                if (!cell.textContent) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     checkWin() {
-        this.turns++;
         return this.checkRows() ||
                this.checkColumns() ||
                this.checkDiagonals();
     }
 
-    checkRows() {
-        return Array.from(rows).some((row: HTMLTableRowElement) => {
-            return this.checkThreeTiles(Array.from(row.cells));
+    private checkRows() {
+        return this.snapshot.some((row: string[]) => {
+            return this.checkThreeTiles(row);
         });
     }
 
-    checkColumns() {
+    private checkColumns() {
         for (let i = 0; i < 3; i++) {
             let col = [];
-            for (let r of rows) {
-                col.push(r.cells[i]);
+            for (let row of this.snapshot) {
+                col.push(row[i]);
             }
             if (this.checkThreeTiles(col)) {
                 return true;
@@ -54,22 +79,29 @@ export class GameBoard {
         return false;
     }
 
-    checkDiagonals() {
+    private checkDiagonals() {
         let diags = [
-            [rows[0].cells[0], rows[1].cells[1], rows[2].cells[2]],
-            [rows[0].cells[2], rows[1].cells[1], rows[2].cells[0]]
+            [this.snapshot[0][0], this.snapshot[1][1], this.snapshot[2][2]],
+            [this.snapshot[0][2], this.snapshot[1][1], this.snapshot[2][0]]
         ];
 
-        return diags.some((diag: HTMLTableCellElement[]) => {
+        return diags.some((diag: string[]) => {
             return this.checkThreeTiles(diag);
         });
     }
 
-    checkThreeTiles(threeTiles: HTMLTableCellElement[]) {
-        const threeTilesContent = threeTiles.map(tile => tile.textContent);
-        const emptyCheck = !!threeTilesContent[0];
-        const sameCheck = threeTilesContent[0] === threeTilesContent[1] && threeTilesContent[1] === threeTilesContent[2];
+    private checkThreeTiles(threeTiles: string[]) {
+        const emptyCheck = !!threeTiles[0];
+        const sameCheck = threeTiles[0] === threeTiles[1] && threeTiles[1] === threeTiles[2];
         return emptyCheck && sameCheck;
+    }
+
+    getSnapshot() {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                this.snapshot[i][j] = rows[i].cells[j].textContent!;
+            }
+        }
     }
 
     clearBoard() {
@@ -80,7 +112,61 @@ export class GameBoard {
         }
     }
 
-    resetTurns() {
-        this.turns = 0;
+    playBest() {
+        this.getSnapshot();
+        let bestScore = -Infinity;
+        let bestMove: {i: number, j: number};
+        let score: number;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (this.snapshot[i][j] !== '') {
+                    continue;
+                }
+                this.snapshot[i][j] = 'X';
+                score = this.minimax(false);
+                this.snapshot[i][j] = '';
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = { i, j };
+                }
+            }
+        }
+        rows[bestMove.i].cells[bestMove.j].textContent = 'X';
+    }
+
+    private minimax(isMaximizing: boolean) {
+        if (this.checkWin()) {
+            return isMaximizing ? -1 : 1;
+        } else if (this.checkTie()) {
+            return 0;
+        }
+
+        let bestScore: number;
+        let optimizer: Function;
+        let symbol: string;
+
+        if (isMaximizing) {
+            bestScore = -Infinity;
+            optimizer = Math.max;
+            symbol = 'X';
+        } else {
+            bestScore = Infinity;
+            optimizer = Math.min;
+            symbol = 'O';
+        }
+
+        let score: number;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (this.snapshot[i][j] !== '') {
+                    continue;
+                }
+                this.snapshot[i][j] = symbol;
+                score = this.minimax(!isMaximizing);
+                this.snapshot[i][j] = '';
+                bestScore = optimizer(bestScore, score);
+            }
+        }
+        return bestScore;
     }
 }

@@ -11,24 +11,22 @@
     <script type="module" src="main.js" defer></script>
   </head>
   <body>
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade text-center" id="gameMode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gameModeLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Choose Game Mode</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="gameModeLabel">Choose Game Mode</h5>
           </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer text-center">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Single Player</button>
-            <button type="button" class="btn btn-primary">Two Player</button>
+          <div class="modal-body">
+            <button type="button" class="btn btn-secondary" data-mode="single">Single Player</button>
+            <button type="button" class="btn btn-primary" data-mode="multi">Two Player</button>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
       <h1 class="display-2">Tic Tac Toe</h1>
-      <p id="turn">Player X's turn</p>
+      <p id="turn"></p>
     </div>
     <table class="table table-bordered container">
       <tbody>

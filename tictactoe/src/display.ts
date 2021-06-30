@@ -10,6 +10,7 @@ export class DisplayController {
 
     constructor() {
         this.game = new GameBoard();
+        this.game.display = this;
         this.playable = true;
     }
 
@@ -23,13 +24,10 @@ export class DisplayController {
 
         let marked = this.game.getCurrentPlayer().mark(e.target as HTMLTableCellElement);
         if (marked) {
-            if (this.game.checkWin()) {
-                this.endGame(true);
-                this.playable = false;
-            } else if (this.game.checkTie()) {
-                this.endGame(false);
-            } else {
-                this.game.switchPlayer();
+            this.game.getSnapshot();
+            this.checkGameover();
+            if (this.playable) {
+                this.game.nextTurn();
             }
         }
     }
@@ -38,14 +36,20 @@ export class DisplayController {
         turnHeader.textContent = `Player ${currPlayer.symbol}'s turn`;
     }
 
+    checkGameover() {
+        if (this.game.checkWin()) {
+            this.endGame(true);
+            this.playable = false;
+        } else if (this.game.checkTie()) {
+            this.endGame(false);
+        }
+    }
+
     reset() {
         this.game.clearBoard();
         this.playable = true;
-        turnHeader.textContent = "Player X's turn";
-        if (this.game.getCurrentPlayer().symbol === 'O') {
-            this.game.switchPlayer();
-        }
-        this.game.resetTurns();
+        turnHeader.textContent = '';
+        this.startGame();
     }
 
     endGame(win: boolean) {
@@ -54,6 +58,17 @@ export class DisplayController {
         } else {
             turnHeader.textContent = "It's a tie!";
         }
-        table.removeEventListener('click', this.markTile);
+    }
+
+    setGameMode(mode: string) {
+        this.game.setMode(mode);
+    }
+
+    startGame() {
+        if (this.game.getMode() === 'single') {
+            this.game.nextTurn();
+            return;
+        }
+        this.game.currentPlayer = 0;
     }
 }

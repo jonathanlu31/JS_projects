@@ -10,16 +10,6 @@ body {
   padding: 0;
 }
 
-#left-score {
-  float: left;
-  margin-left: 1rem;
-}
-
-#right-score {
-  float: right;
-  margin-right: 1rem;
-}
-
 table {
   font-size: 3rem;
 }
@@ -32,4 +22,8 @@ td {
 td:hover {
   background-color: #d8e4e9;
   cursor: pointer;
+}
+
+.modal-header {
+  justify-content: center;
 }
