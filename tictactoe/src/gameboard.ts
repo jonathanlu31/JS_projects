@@ -44,9 +44,9 @@ export class GameBoard {
     }
 
     checkTie() {
-        for (let row of rows) {
-            for (let cell of row.cells) {
-                if (!cell.textContent) {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (this.snapshot[i][j] === '') {
                     return false;
                 }
             }
@@ -123,7 +123,8 @@ export class GameBoard {
                     continue;
                 }
                 this.snapshot[i][j] = 'X';
-                score = this.minimax(false);
+                score = this.minimax(0, false);
+                console.log(score);
                 this.snapshot[i][j] = '';
                 if (score > bestScore) {
                     bestScore = score;
@@ -134,9 +135,12 @@ export class GameBoard {
         rows[bestMove.i].cells[bestMove.j].textContent = 'X';
     }
 
-    private minimax(isMaximizing: boolean) {
+    private minimax(depth: number, isMaximizing: boolean) {
         if (this.checkWin()) {
-            return isMaximizing ? -1 : 1;
+            if (isMaximizing) {
+                return -100 + depth;
+            }
+            return 100 - depth;
         } else if (this.checkTie()) {
             return 0;
         }
@@ -162,7 +166,7 @@ export class GameBoard {
                     continue;
                 }
                 this.snapshot[i][j] = symbol;
-                score = this.minimax(!isMaximizing);
+                score = this.minimax(depth + 1, !isMaximizing);
                 this.snapshot[i][j] = '';
                 bestScore = optimizer(bestScore, score);
             }
