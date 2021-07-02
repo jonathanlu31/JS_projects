@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Modal from 'bootstrap';
+import { Modal } from 'bootstrap';
 import DisplayController from './display';
 
 const gameDisplay = new DisplayController();
@@ -22,6 +22,3 @@ modal.addEventListener('click', (e) => {
 });
 table.addEventListener('click', (e) => gameDisplay.markTile(e));
 resetButton.addEventListener('click', () => gameDisplay.reset());
-
-// FIXME doesn't change the header for turn after game over
-// FIXME After player wins the AI will still playa move

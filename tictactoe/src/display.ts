@@ -24,7 +24,6 @@ export default class DisplayController {
 
     const marked = this.game.getCurrentPlayer().mark(e.target as HTMLTableCellElement);
     if (marked) {
-      this.game.getSnapshot();
       this.checkGameover();
       if (this.playable) {
         this.game.nextTurn();
@@ -37,18 +36,20 @@ export default class DisplayController {
   }
 
   checkGameover() {
+    this.game.getSnapshot();
     if (this.game.checkWin()) {
       this.endGame(true);
       this.playable = false;
     } else if (this.game.checkTie()) {
       this.endGame(false);
+      this.playable = false;
     }
   }
 
   reset() {
     GameBoard.clearBoard();
     this.playable = true;
-    turnHeader.textContent = '';
+    turnHeader.innerHTML = '<br>';
     this.startGame();
   }
 
@@ -70,5 +71,6 @@ export default class DisplayController {
       return;
     }
     this.game.currentPlayer = 0;
+    turnHeader.textContent = "Player X's turn";
   }
 }

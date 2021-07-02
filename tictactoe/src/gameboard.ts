@@ -24,7 +24,7 @@ export default class GameBoard {
   setMode(mode: string) {
     this.mode = mode;
     if (mode === 'single') {
-      this.currentPlayer += 1;
+      this.currentPlayer = 1;
     }
   }
 
@@ -39,7 +39,9 @@ export default class GameBoard {
   nextTurn() {
     if (this.mode === 'single') {
       this.playBest();
+      this.currentPlayer = 0;
       this.display!.checkGameover();
+      this.currentPlayer = 1;
       return;
     }
     this.currentPlayer = (this.currentPlayer + 1) % 2;
@@ -112,7 +114,8 @@ export default class GameBoard {
   playBest() {
     this.getSnapshot();
     let bestScore = -Infinity;
-    let bestMove: { i: number; j: number };
+    // placeholder
+    let bestMove = { i: 0, j: 0 };
     let score: number;
     for (let i = 0; i < 3; i += 1) {
       for (let j = 0; j < 3; j += 1) {
