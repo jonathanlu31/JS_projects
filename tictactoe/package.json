@@ -5,13 +5,18 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack",
-    "say-hello": "echo 'Hello World!'",
+    "lint": "./node_modules/.bin/eslint ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Jonathan Lu",
   "license": "ISC",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.4",
     "webpack": "^5.41.0",
