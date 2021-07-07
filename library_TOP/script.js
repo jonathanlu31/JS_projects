@@ -81,6 +81,7 @@ function initializeReadToggle(bookCard, book) {
         book.read = !book.read;
     })
 }
+//TODO fix bug
 
 function initialLibrary() {
     let firstBook = new Book('The Hobbit', 'J.R.R. Tolkien', 310, true);
